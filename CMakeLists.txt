@@ -70,7 +70,7 @@ MESSAGE(STATUS "SDK output directory: ${SDK_DIR}")
 # INCLUDE
 TARGET_INCLUDE_DIRECTORIES(${PROJECT_NAME} PRIVATE
     src
-    # TODO: 3rdparty include 경로 추가
+    3rdparty/spdlog/include
 )
 
 # LINK

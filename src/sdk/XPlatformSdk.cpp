@@ -1,79 +1,92 @@
 #include "XPlatformSdk.h"
 
-#include <cstdio>
 #include <memory>
 #include <mutex>
 #include <string>
 
 #include "info/version.h"
+#include "util/log/logger.h"
 
 // 네트워크 및 서비스 (전역 싱글톤 디자인 패턴)
 namespace {
     std::mutex _mutex;
 
     // 연결 상태
-    bool        _connected = false;
+    bool _connected = false;
     std::string _ip;
-    int         _port = 0;
+    int _port = 0;
 
 } // namespace
 
-void getVersion(xplatform_sdk_version_t* version) {
-    if (!version) {
-        return;
-    }
+void init() {
+    //logger
+    Logger::init();
 
-    version->major        = XPLATFORM_SDK_VERSION_MAJOR;
-    version->minor        = XPLATFORM_SDK_VERSION_MINOR;
-    version->patch        = XPLATFORM_SDK_VERSION_PATCH;
-    version->name         = XPLATFORM_SDK_NAME;
-    version->manufacturer = XPLATFORM_SDK_MANUFACTURER;
+    LOG_INFO("[Sdk] init successed");
+}
 
-    printf("[Sdk] get version: %s v%d.%d.%d (%s)\n",
-        version->name,
-        version->major, version->minor, version->patch,
-        version->manufacturer);
+void shutdown() {
+    LOG_INFO("[Sdk] shutdown");
+
+    Logger::shutdown();
+
+    LOG_INFO("[Sdk] shutdown successed");
 }
 
 bool connect(const char* ip, int port) {
     std::lock_guard<std::mutex> lock(_mutex);
 
-    printf("[Sdk] connect: ip=(%s) port=(%d)\n", ip, port);
+    LOG_INFO("[Sdk] connect: ip=({}) port=({})", ip, port);
 
     // 이미 연결된 경우 먼저 정리
     if (_connected) {
-        printf("[Sdk] connect: already connected, disconnecting first\n");
+        LOG_WARN("[Sdk] connect: already connected, disconnecting first");
         _connected = false;
     }
 
-    _ip   = ip;
+    _ip = ip;
     _port = port;
 
     // TODO: 실제 RTSP 연결 구현
-    //
 
     _connected = true;
 
-    printf("[Sdk] connect: OK\n");
+    LOG_INFO("[Sdk] connect: OK");
     return true;
 }
 
 void disconnect() {
     std::lock_guard<std::mutex> lock(_mutex);
 
-    printf("[Sdk] disconnect\n");
+    LOG_INFO("[Sdk] disconnect");
 
     if (!_connected) {
-        printf("[Sdk] disconnect: not connected\n");
+        LOG_WARN("[Sdk] disconnect: not connected");
         return;
     }
 
     // TODO: 실제 RTSP 연결 해제 구현
-    //
-    
+
     _connected = false;
     _ip.clear();
     _port = 0;
 
-    printf("[Sdk] disconnect: OK\n");
+    LOG_INFO("[Sdk] disconnect: OK");
+}
+
+void getVersion(xplatform_sdk_version_t* version) {
+    if (!version) {
+        return;
+    }
+
+    version->major = XPLATFORM_SDK_VERSION_MAJOR;
+    version->minor = XPLATFORM_SDK_VERSION_MINOR;
+    version->patch = XPLATFORM_SDK_VERSION_PATCH;
+    version->name = XPLATFORM_SDK_NAME;
+    version->manufacturer = XPLATFORM_SDK_MANUFACTURER;
+
+    LOG_INFO("[Sdk] get version: {} v{}.{}.{} ({})",
+        version->name,
+        version->major, version->minor, version->patch,
+        version->manufacturer);
 }

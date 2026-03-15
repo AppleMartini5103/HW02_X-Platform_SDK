@@ -9,7 +9,7 @@
 #elif defined(__ANDROID__)
   #define XPLATFORM_API __attribute__((visibility("default")))
 #elif defined(__linux__)
-    #define XPLATFORM_API __attribute__((visibility("default")))
+  #define XPLATFORM_API __attribute__((visibility("default")))
 #elif defined(__APPLE__)
   #include <TargetConditionals.h>
   #if TARGET_OS_IPHONE
@@ -24,7 +24,6 @@
 #include <stdint.h>
 #include <stddef.h>
 
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -38,14 +37,20 @@ typedef struct {
     const char* manufacturer;
 } xplatform_sdk_version_t;
 
-// API - SDK 버전 조회
-XPLATFORM_API void getVersion(xplatform_sdk_version_t* version);
+// API - SDK 초기화 (최초 1회 호출)
+XPLATFORM_API void init();
+
+// API - SDK 종료 (프로그램 종료 전 1회 호출)
+XPLATFORM_API void shutdown();
 
 // API - 카메라 연결
 XPLATFORM_API bool connect(const char* ip, int port);
 
 // API - 카메라 연결 해제
 XPLATFORM_API void disconnect();
+
+// API - SDK 버전 조회
+XPLATFORM_API void getVersion(xplatform_sdk_version_t* version);
 
 #ifdef __cplusplus
 } /* extern "C" */
