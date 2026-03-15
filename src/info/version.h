@@ -1,0 +1,7 @@
+#pragma once
+
+#define XPLATFORM_SDK_VERSION_MAJOR 0
+#define XPLATFORM_SDK_VERSION_MINOR 1
+#define XPLATFORM_SDK_VERSION_PATCH 0
+#define XPLATFORM_SDK_NAME         "XPlatform SDK"
+#define XPLATFORM_SDK_MANUFACTURER "AppleMartini"
