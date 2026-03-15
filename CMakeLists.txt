@@ -35,6 +35,8 @@ ENDIF()
 # SOURCE (main.cpp 제외 - 공유 라이브러리에는 main 불필요)
 SET(SOURCES
     src/sdk/XPlatformSdk.cpp
+    src/sdk/XPlatformSdk.h
+    src/info/version.h
 )
 
 # SHARED LIBRARY
