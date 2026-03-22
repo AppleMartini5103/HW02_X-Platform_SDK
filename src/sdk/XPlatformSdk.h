@@ -28,6 +28,17 @@
 extern "C" {
 #endif
 
+// 로그 레벨
+typedef enum {
+    XPLATFORM_LOG_LEVEL_TRACE = 0,
+    XPLATFORM_LOG_LEVEL_DEBUG = 1,
+    XPLATFORM_LOG_LEVEL_INFO = 2,
+    XPLATFORM_LOG_LEVEL_WARN = 3,
+    XPLATFORM_LOG_LEVEL_ERROR = 4,
+    XPLATFORM_LOG_LEVEL_CRITICAL = 5,
+    XPLATFORM_LOG_LEVEL_OFF = 6,
+} xplatform_log_level_t;
+
 // SDK 버전 정보
 typedef struct {
     int         major;
@@ -38,7 +49,7 @@ typedef struct {
 } xplatform_sdk_version_t;
 
 // API - SDK 초기화 (최초 1회 호출)
-XPLATFORM_API void init();
+XPLATFORM_API void init(xplatform_log_level_t logLevel = XPLATFORM_LOG_LEVEL_TRACE);
 
 // API - SDK 종료 (프로그램 종료 전 1회 호출)
 XPLATFORM_API void shutdown();

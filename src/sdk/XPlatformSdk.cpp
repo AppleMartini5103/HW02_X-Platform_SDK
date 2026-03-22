@@ -18,9 +18,9 @@ namespace {
 
 } // namespace
 
-void init() {
+void init(xplatform_log_level_t logLevel) {
     //logger
-    Logger::init();
+    Logger::init(static_cast<spdlog::level::level_enum>(logLevel));
 
     LOG_INFO("[Sdk] init successed");
 }
